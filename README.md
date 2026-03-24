@@ -155,9 +155,8 @@ T-Data/
 └── docs/                    # 附加文档
     └── architecture.md      # 系统架构图说明
 
-
-关键优化
-1. 确定性计算
+## 关键优化
+## 1. 确定性计算
 通过设置 CUBLAS_WORKSPACE_CONFIG=:4096:8，所有 GPU 操作结果可复现，满足金融回测的严格审计要求。
 
 2. 生产级启动脚本 (deploy/run.sh)
