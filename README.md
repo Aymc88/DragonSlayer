@@ -101,6 +101,7 @@
 
 
 # 一键安装 T-Data 环境（克隆仓库 + 创建虚拟环境 + 安装依赖）
+#！/bin/bash
 git clone https://github.com/Aymc88/T-Data.git && \
 cd T-Data && \
 python3 -m venv venv && \
