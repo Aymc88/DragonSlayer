@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.log
+*.pt
+*.bin
+*.safetensors
+.DS_Store
+venv/
+*.csv
+*.jsonl
+results/gpu_metrics.log
