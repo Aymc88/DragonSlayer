@@ -102,6 +102,7 @@
 
 ### 安装依赖
 bash
+
 git clone https://github.com/Aymc88/T-Data.git
 cd T-Data
 pip install -r requirements.txt
@@ -110,6 +111,7 @@ pip install -r requirements.txt
 ### 启动模拟盘
 
 bash
+
 cd deploy
 chmod +x tdata1_ctl.sh
 ./tdata1_ctl.sh start
@@ -119,11 +121,13 @@ chmod +x tdata1_ctl.sh
 ### 停止服务
 
 bash
+
 ./tdata1_ctl.sh stop
 
 ### 运行蒸馏（如需重新训练）
 
 bash
+
 cd scripts
 python distill.py --config distill_config.yaml
 
