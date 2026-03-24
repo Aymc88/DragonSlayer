@@ -113,32 +113,17 @@ cd deploy chmod +x tdata1_ctl.sh ./tdata1_ctl.sh start
 
 访问 [http://localhost:8501](http://localhost:8501) 打开交易界面。
 
-# 停止服务
-
-bash
-
-./tdata1_ctl.sh stop
-
-
-
-### 安装依赖
-git clone https://github.com/Aymc88/T-Data.git
-cd T-Data
-pip install -r requirements.txt
-
-
-### 启动模拟盘
-cd deploy
-chmod +x tdata1_ctl.sh
-./tdata1_ctl.sh start
-
 >**启动后访问** http://localhost:8501 打开交易界面。
 
 ### 停止服务
+bash
+
 cd deploy   # 如果已经在 deploy 目录下可省略
 ./tdata1_ctl.sh stop
 
 ### 运行蒸馏（如需重新训练）
+bash
+
 cd scripts
 python distill.py --config distill_config.yaml
 
