@@ -99,6 +99,27 @@
 - **软件**：CUDA 12.1+、Python 3.10+
 - **依赖**：见 requirements.txt
 
+# 安装依赖
+
+bash
+
+git clone https://github.com/Aymc88/T-Data.git cd T-Data pip install -r requirements.txt
+
+# 启动模拟盘
+
+bash
+
+cd deploy chmod +x tdata1_ctl.sh ./tdata1_ctl.sh start
+
+访问 [http://localhost:8501](http://localhost:8501) 打开交易界面。
+
+# 停止服务
+
+bash
+
+./tdata1_ctl.sh stop
+
+
 
 ### 安装依赖
 git clone https://github.com/Aymc88/T-Data.git
