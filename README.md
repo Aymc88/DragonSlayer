@@ -69,7 +69,7 @@
 - **Grouped-Query Attention (GQA)**：显著降低 KV Cache 占用，适合处理滑动窗口行情数据。
 - **RoPE + RMSNorm**：与 DeepSeek 系列架构相似，蒸馏时特征对齐更平滑。
 
-####3. 量化：NVFP4
+#### 3. 量化：NVFP4
 - **Blackwell 原生支持**：NVFP4 比 INT4 精度更高，速度提升 20-30%。
 - **TensorRT-LLM**：集成 Kernel Fusion 和 In-flight Batching，进一步优化推理延迟。
 
@@ -155,8 +155,8 @@ T-Data/
 └── docs/                    # 附加文档
     └── architecture.md      # 系统架构图说明
 
-关键优化
-1. 确定性计算
+## 关键优化
+### 1. 确定性计算
 通过设置 CUBLAS_WORKSPACE_CONFIG=:4096:8，所有 GPU 操作结果可复现，满足金融回测的严格审计要求。
 
 2. 生产级启动脚本 (deploy/run.sh)
