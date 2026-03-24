@@ -105,6 +105,10 @@ git clone https://github.com/Aymc88/T-Data.git
 cd T-Data
 pip install -r requirements.txt
 
+git clone https://github.com/Aymc88/T-Data.git
+cd T-Data
+pip install -r requirements.txt
+
 启动模拟盘
 
 bash
