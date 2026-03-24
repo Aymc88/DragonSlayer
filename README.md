@@ -99,6 +99,17 @@
 - **软件**：CUDA 12.1+、Python 3.10+
 - **依赖**：见 requirements.txt
 
+
+# 一键安装 T-Data 环境（克隆仓库 + 创建虚拟环境 + 安装依赖）
+git clone https://github.com/Aymc88/T-Data.git && \
+cd T-Data && \
+python3 -m venv venv && \
+source venv/bin/activate && \
+pip install --upgrade pip && \
+pip install -r requirements.txt && \
+echo "✅ T-Data 安装完成！"
+
+
 ### 安装依赖
 bash
 git clone https://github.com/Aymc88/T-Data.git
