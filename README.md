@@ -129,31 +129,31 @@ python distill.py --config distill_config.yaml
 ### 项目结构
 
 T-Data/
-├── README.md                # 项目说明
-├── LICENSE                  # MIT 许可证
-├── requirements.txt         # Python 依赖
-├── scripts/                 # 蒸馏与量化脚本
-│   ├── distill.py           # 蒸馏训练（基于 NeMo）
-│   ├── quantize.py          # NVFP4 量化（TensorRT-LLM）
-│   └── benchmark.py         # 推理速度测试
-├── dashboard/               # Streamlit 模拟盘
-│   ├── tdata1_dashboard.py  # 主程序
-│   └── utils.py             # Greeks 计算、数据加载
-├── deploy/                  # 生产级部署脚本
-│   ├── tdata1_ctl.sh        # 总控脚本（start/stop/restart）
-│   ├── run.sh               # 启动脚本（含环境检查）
-│   └── stop.sh              # 停止脚本
-├── data/                    # 示例数据
-│   ├── sample_inputs.jsonl  # 蒸馏样本（10条）
-│   └── historical_scenarios/ # 历史场景 CSV
+├── README.md                     # 项目说明
+├── LICENSE                       # MIT 许可证
+├── requirements.txt              # Python 依赖
+├── scripts/                      # 蒸馏与量化脚本
+│   ├── distill.py                # 蒸馏训练（基于 NeMo）
+│   ├── quantize.py               # NVFP4 量化（TensorRT-LLM）
+│   └── benchmark.py              # 推理速度测试
+├── dashboard/                    # Streamlit 模拟盘
+│   ├── tdata1_dashboard.py       # 主程序
+│   └── utils.py                  # Greeks 计算、数据加载
+├── deploy/                       # 生产级部署脚本
+│   ├── tdata1_ctl.sh             # 总控脚本（start/stop/restart）
+│   ├── run.sh                    # 启动脚本（含环境检查）
+│   └── stop.sh                   # 停止脚本
+├── data/                         # 示例数据
+│   ├── sample_inputs.jsonl       # 蒸馏样本（10条）
+│   └── historical_scenarios/     # 历史场景 CSV
 │       ├── svb_crisis.csv
 │       └── jpy_unwind.csv
-├── results/                 # 预设结果（比赛后替换）
-│   ├── loss_curve.png       # 蒸馏损失曲线
-│   ├── performance_table.md # 性能对比表
-│   └── gpu_metrics.log      # GPU 监控日志
-└── docs/                    # 附加文档
-    └── architecture.md      # 系统架构图说明
+├── results/                      # 预设结果（比赛后替换）
+│   ├── loss_curve.png            # 蒸馏损失曲线
+│   ├── performance_table.md      # 性能对比表
+│   └── gpu_metrics.log           # GPU 监控日志
+└── docs/                         # 附加文档
+    └── architecture.md           # 系统架构图说明
 
 ## 关键优化
 ### 1. 确定性计算
