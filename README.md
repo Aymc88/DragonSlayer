@@ -107,7 +107,7 @@ pip install -r requirements.txt
 
 启动模拟盘
 
-bash
+```bash
 cd deploy
 chmod +x tdata1_ctl.sh
 ./tdata1_ctl.sh start
