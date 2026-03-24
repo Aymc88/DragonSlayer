@@ -100,16 +100,13 @@
 - **依赖**：见 requirements.txt
 
 ### 安装依赖
-```bash
+bash
 git clone https://github.com/Aymc88/T-Data.git
 cd T-Data
 pip install -r requirements.txt
 
-git clone https://github.com/Aymc88/T-Data.git
-cd T-Data
-pip install -r requirements.txt
 
-启动模拟盘
+### 启动模拟盘
 
 bash
 cd deploy
@@ -118,18 +115,18 @@ chmod +x tdata1_ctl.sh
 
 访问 http://localhost:8501 打开交易界面。
 
-停止服务
+### 停止服务
 
 bash
 ./tdata1_ctl.sh stop
 
-运行蒸馏（如需重新训练）
+### 运行蒸馏（如需重新训练）
 
 bash
 cd scripts
 python distill.py --config distill_config.yaml
 
-项目结构
+### 项目结构
 
 text
 T-Data/
@@ -159,38 +156,38 @@ T-Data/
 └── docs/                    # 附加文档
     └── architecture.md      # 系统架构图说明
 
-关键优化
-1. 确定性计算
+## 关键优化
+### 1. 确定性计算
 通过设置 CUBLAS_WORKSPACE_CONFIG=:4096:8，所有 GPU 操作结果可复现，满足金融回测的严格审计要求。
 
-2. 生产级启动脚本 (deploy/run.sh)
+### 2. 生产级启动脚本 (deploy/run.sh)
 - 端口检查：lsof 确保 8501 端口未被占用。
 - 磁盘预警：可用空间低于 10GB 时警告。
 - GPU 检查：确认驱动和权限正常。
 - 优雅停机：kill -TERM 释放显存，避免碎片堆积。
 - 后台监控：nvidia-smi dmon 持续记录 GPU 指标。
 
-3. X-Ray 级监控
+### 3. X-Ray 级监控
 所有关键指标（显存带宽、功耗、SM 利用率）均写入 gpu_metrics.log，赛后可视化可直观展示系统稳定性。
 
-4. 量化感知蒸馏
+### 4. 量化感知蒸馏
 采用 NVIDIA TensorRT-LLM 的 NVFP4 量化，在压缩体积的同时保留关键精度，尤其适合 Greeks 敏感性任务。
 
-未来工作
+### 未来工作
 - 实盘接入：对接 Interactive Brokers、CQG 等 API，实现全自动交易。
 - 多资产扩展：支持股指、商品期权等更多标的。
 - 风控增强：集成止损、仓位管理、压力测试模块。
 - 多模型集成：通过投票机制进一步提升决策稳健性。
 - 极致量化：探索 2-bit 量化及更高效的模型架构。
 
-致谢
+### 致谢
 - NVIDIA：提供 DGX Spark 硬件支持和 NeMo、TensorRT-LLM 框架。
 - Qwen 团队：开源 Qwen2.5-3B 模型，GQA 架构为高频交易提供理想基础。
 - Streamlit：快速搭建交互式演示界面。
 - HuggingFace：模型加载与生态支持。
 - 开源社区：所有为本项目提供灵感和工具的贡献者。
 
-许可证
+### 许可证
 本项目采用 MIT 许可证。您可以自由使用、修改、分发，但需保留版权声明。
 
-T-Data: 惊艳，不止于小。
+### T-Data: 惊艳，不止于小。
