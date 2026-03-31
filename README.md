@@ -19,9 +19,9 @@
 该仓库是 **DragonSlayer 2.8GB** 项目的**技术框架展示版**。主要模型权重与训练工件由于体积过大已通过 `.gitignore` 屏蔽，重点展示以下核心模块：
 
 1.  **项目全阶段核心管线**: [dragon_slayer.py](dragon_slayer.py) (展示剪枝、量化与蒸馏的逻辑流)
-2.  **多智能体策略框架**: [multi_agent_pipeline.py](multi_agent_pipeline.py) (展示 Oracle-Forger 与 Oathkeeper 协同逻辑)
-3.  **实时看板可视化**: [dragonslayer_web.py](dragonslayer_web.py) (基于 Flask 的交易终端演示)
-4.  **技术文档**: [docs/architecture.md](docs/architecture.md)
+2.  **多智能体策略框架**: [multi_agent_pipeline.py](multi_agent_pipeline.py) 
+3.  **实时看板可视化**: [dragonslayer_web.py](dragonslayer_web.py) 
+
 
 ---
 
