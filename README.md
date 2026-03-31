@@ -136,18 +136,30 @@ pip install -r requirements.txt
 ### 启动模拟盘
 
 ```bash
+# 方式一：使用控制脚本（推荐）
 cd deploy
 chmod +x tdata1_ctl.sh
 ./tdata1_ctl.sh start
+
+# 方式二：直接启动 DragonSlayer Web 界面
+python3 dragonslayer_web.py
 ```
 
 启动成功后，在**运行本项目的同一台机器**上打开浏览器，访问：
 
 ```
-http://localhost:8501
+http://localhost:5051
 ```
 
-> ⚠️ 注意：`localhost:8501` 为本地服务地址，必须先在本机启动服务后方可访问，无法从外部网络直接打开。如需远程访问，请配置 SSH 隧道或部署至云服务器。
+如在 DGX Spark 等远程服务器上运行，请通过 SSH 隧道访问：
+
+```bash
+# 在本地 Mac 终端建立隧道
+ssh -L 5051:localhost:5051 -p 6062 xsuper@服务器IP
+# 然后访问 http://localhost:5051
+```
+
+> ⚠️ 注意：`localhost:5051` 为本地服务地址，必须先启动服务后方可访问，无法从外部网络直接打开。
 
 ### 停止服务
 
