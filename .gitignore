@@ -58,3 +58,10 @@ api_keys.py
 
 # --- 测试与调试脚本（可选保留）---
 test.py
+
+# --- 本地模型工件文件夹 (Hide Local Model Artifacts) ---
+home/
+Binary-X/
+Models/
+weights/
+checkpoint-*/

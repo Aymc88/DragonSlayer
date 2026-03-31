@@ -6,6 +6,70 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # ---------------------------------------------------------
+# 🖥️ GPU 显存实时监控模块 (X-Ray VRAM Monitor)
+# ---------------------------------------------------------
+# ---------------------------------------------------------
+# 🖥️ GPU 显存实时监控引擎 (X-Ray Live v2.0)
+# ---------------------------------------------------------
+import threading
+import sys
+from contextlib import contextmanager
+
+class XRayLiveMonitor(threading.Thread):
+    """
+    DragonSlayer 专属：全时显存实时感知线程
+    在后台静默运行，捕捉 0DTE 推理过程中的所有瞬时显存尖峰
+    """
+    def __init__(self, interval=0.05):
+        super().__init__(daemon=True)
+        self.interval = interval
+        self.stop_event = threading.Event()
+        self.peak_vram = 0.0
+        self.base_vram = 0.0
+
+    def run(self):
+        if not torch.cuda.is_available(): return
+        self.base_vram = torch.cuda.memory_allocated() / 1024**3
+        while not self.stop_event.is_set():
+            current = torch.cuda.memory_allocated() / 1024**3
+            if current > self.peak_vram:
+                self.peak_vram = current
+            # 在最底行动态显示，不干扰主输出
+            sys.stdout.write(f"\r  📡 [X-Ray Live] Current: {current:.2f}G | Peak: {self.peak_vram:.2f}G | Δ: {(current-self.base_vram):.2f}G    ")
+            sys.stdout.flush()
+            time.sleep(self.interval)
+
+    def stop(self):
+        self.stop_event.set()
+        print(f"\n  📊 [X-Ray Final Report] 捕捉到全时峰值: {self.peak_vram:.3f} GB")
+        if self.peak_vram <= 2.8:
+            print(f"  ✅ 硬件状态：DragonSlayer_INT4 推理合规 (Under 2.8GB)")
+        else:
+            print(f"  ⚠️ 硬件状态：检测到显存溢出风险！")
+
+@contextmanager
+def xray_vram_scope(label="Pipeline Segment"):
+    """
+    高级用法：with xray_vram_scope('Inference'):
+    自动化开启/关闭监控并生成局部报告
+    """
+    print(f"\n🚀 [Monitoring] 开始追踪: {label}")
+    monitor = XRayLiveMonitor()
+    monitor.start()
+    try:
+        yield monitor
+    finally:
+        monitor.stop()
+
+# 全局变量兼容性保留
+_vram_peak = 0.0 
+def vram_checkpoint(label):
+    curr = torch.cuda.memory_allocated() / 1024**3
+    print(f"  🔍 [Marker] {label}: {curr:.2f} GB")
+    return curr
+
+
+# ---------------------------------------------------------
 # Phase 1: DragonSlayer_INT4 环境准备 & 资源控制
 # ---------------------------------------------------------
 MODEL_PATH = "/home/xsuper/Binary-X/Models/Student_Core/DragonSlayer_INT4"
@@ -60,36 +124,42 @@ class MultiAgentOrchestrator:
 # Phase 3: 极致闭环测试 (0DTE <500ms 冲刺)
 # ---------------------------------------------------------
 def run_simulation_loop():
+    """极致闭环测试 (0DTE <500ms 冲刺)"""
     setup_vram_limit()
-    orchestrator = MultiAgentOrchestrator()
-    market_data = "SPX / 0DTE: [Open, High, Low, Close, V, OI]"
     
-    print("\n" + "="*50)
-    print(" 🎲 DragonSlayer 0DTE V2 极速交易模拟启动 (Oracle+Forger 融合)")
-    print("="*50)
+    # 注入 X-Ray Live 全时监控上下文
+    with xray_vram_scope("DragonSlayer 0DTE V2") as monitor:
+        orchestrator = MultiAgentOrchestrator()
+        market_data = "SPX / 0DTE: [Open, High, Low, Close, V, OI]"
+        
+        print("\n" + "="*55)
+        print(" 🎲 DragonSlayer 极速模拟启动 (Oracle-Forger 协同负载)")
+        print("="*55)
+        
+        start_time = time.time()
+        
+        # 1. 唤醒融合智能体
+        of_out = orchestrator.invoke_model("Oracle-Forger", orchestrator.oracle_forger_prompt, market_data)
+        print(f"🔮⚒️ [Oracle-Forger] 已生成 Polars 算子:\n{of_out}")
+        context_switch() 
+        
+        # 2. Oathkeeper 审查
+        oathkeeper_out = orchestrator.invoke_model("Oathkeeper", orchestrator.oathkeeper_prompt, of_out)
+        print(f"🛡️ [Oathkeeper] 审查决议: {oathkeeper_out}")
+        context_switch() 
+        
+        end_time = time.time()
+        latency_ms = (end_time - start_time) * 1000
+        
+        print("-" * 55)
+        print(f"⏱️  TDM 链路全闭环耗时: {latency_ms:.2f} ms")
+        if latency_ms < 500:
+            print("🎯 结果：【完美通过】达成超低时延标准！")
+        else:
+            print("⚠️  结果：【超时】未能达到 <500ms 交易阈值。")
     
-    start_time = time.time()
-    
-    # 1. 唤醒融合智能体：一次性出因子+出代码，免去中间变量内存损耗！
-    of_out = orchestrator.invoke_model("Oracle-Forger", orchestrator.oracle_forger_prompt, market_data)
-    print(f"🔮⚒️ [Oracle-Forger] 一体化输出因子代码:\n{of_out}")
-    context_switch() # 系统仅需清理一次 KV-Cache
-    
-    # 2. Oathkeeper 审查与熔断判断
-    oathkeeper_out = orchestrator.invoke_model("Oathkeeper", orchestrator.oathkeeper_prompt, of_out)
-    print(f"🛡️ [Oathkeeper] 审查决议: {oathkeeper_out}")
-    context_switch() # 第二次清理
-    
-    end_time = time.time()
-    latency_ms = (end_time - start_time) * 1000
-    
-    print("-" * 50)
-    print(f"⏱️ V2 链路全闭环耗时 (TDM Latency): {latency_ms:.2f} ms")
-    if latency_ms < 500:
-        print("🎯 结果：【完美通过】成功压缩至 <500ms 时延要求！(KV-Cache Flush 损耗降低 33%)")
-    else:
-        print("⚠️ 结果：【超时】未能达到 <500ms。")
-    print("="*50)
+    print("="*55)
 
 if __name__ == "__main__":
     run_simulation_loop()
+

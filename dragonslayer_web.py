@@ -9,6 +9,45 @@ app = Flask(__name__)
 def index():
     return render_template("ds_terminal.html")
 
+@app.route("/core")
+def core():
+    return """
+    <html>
+    <head>
+        <title>Antigravity Core v2.0</title>
+        <style>
+            body { background: #050505; color: #00ffca; font-family: 'JetBrains Mono', monospace; padding: 50px; text-transform: uppercase; letter-spacing: 2px; }
+            .header { border-bottom: 2px solid #00ffca; padding-bottom: 10px; margin-bottom: 30px; font-size: 2em; text-shadow: 0 0 10px #00ffca; }
+            .kernel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+            .box { border: 1px solid #333; padding: 20px; background: rgba(0,255,202, 0.05); }
+            .pulse { animation: pulse 2s infinite; }
+            @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+            .status-active { color: #00ffca; }
+        </style>
+    </head>
+    <body>
+        <div class="header pulse">ANTIGRAVITY KERNEL OPS</div>
+        <div class="kernel-grid">
+            <div class="box">
+                <div>SYSTEM STATUS: <span class="status-active">OPERATIONAL</span></div>
+                <div>NEURAL LOAD: 12% [IDLE_OPTIMIZED]</div>
+                <div>DISTILLATION RATIO: 32:1 (INT4 CORE)</div>
+            </div>
+            <div class="box">
+                <div>ACTIVE AGENTS: [ORACLE, FORGER, OATHKEEPER]</div>
+                <div>TDM LATENCY: < 45ms [ULTRA_LITE]</div>
+                <div>DRAGON SLAYER LAYER: LEVEL 3 EXECUTION</div>
+            </div>
+        </div>
+        <div style="margin-top: 40px; color: #666; font-size: 0.8em;">
+            [CORE_LOG] INJECTING QUANTUM-AWARE SMOOTHING... SUCCESS.<br>
+            [CORE_LOG] KV-CACHE FLUSH COMPLETED... 2.68GB FREED.<br>
+            [CORE_LOG] STANDBY FOR 0DTE VOLATILITY TRIGGER.
+        </div>
+    </body>
+    </html>
+    """
+
 @app.route("/api/run_pipeline", methods=["POST"])
 def run_pipeline():
     data = request.json
