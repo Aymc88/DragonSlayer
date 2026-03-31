@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRAGON SLAYER | Telemetry Dashboard</title>
+    <!-- 引入 Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 引入 Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #09090b;
+            --surface: rgba(24, 24, 27, 0.7);
+            --surface-border: rgba(63, 63, 70, 0.5);
+            --accent-green: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.2);
+            --text-primary: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --chart-kl: #3b82f6;
+            --chart-ce: #f59e0b;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem;
+            background: radial-gradient(circle at 50% 0%, #1e1e24, var(--bg) 70%);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .badge {
+            background-color: var(--accent-glow);
+            color: var(--accent-green);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 15px var(--accent-glow);
+            animation: pulse-border 2s infinite;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 5px var(--accent-glow); }
+            50% { box-shadow: 0 0 20px var(--accent-glow); }
+            100% { box-shadow: 0 0 5px var(--accent-glow); }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--surface-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-wide {
+            grid-column: span 4;
+        }
+
+        .card-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .card-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .card-subtext {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, var(--accent-green));
+            width: 0%;
+            transition: width 0.3s ease;
+            position: relative;
+            box-shadow: 0 0 10px var(--accent-green);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        .gpu-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <div>
+                <h1>Dragon Slayer 🚀</h1>
+                <span class="card-subtext" style="font-family: 'JetBrains Mono', monospace;">Target: Final_Brain 11B -> Minitron4.5B-INT4</span>
+            </div>
+            <div class="badge">
+                <div class="dot"></div> NVIDIA NeMo Distillation Running
+            </div>
+        </header>
+
+        <div class="grid">
+            <div class="card card-wide" style="display: flex; flex-direction: column; justify-content: center;">
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <div>
+                        <span class="card-title">Training Progress (Iterations)</span>
+                        <div style="display: flex; align-items: baseline; gap: 10px;">
+                            <h2 class="card-value" id="val-step">0</h2>
+                            <span class="card-title">/ 50000</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="card-title" style="text-align: right;">Completion</span>
+                        <h2 class="card-value" style="color: var(--accent-green);" id="val-percent">0.00%</h2>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="card-title">KL Divergence Loss</span>
+                <h2 class="card-value" style="color: var(--chart-kl);" id="val-kl">--</h2>
+                <span class="card-subtext">↓ Lower is better (Target ~0.01)</span>
+            </div>
+
+            <div class="card">
+                <span class="card-title">Cross-Entropy Loss</span>
+                <h2 class="card-value" style="color: var(--chart-ce);" id="val-ce">--</h2>
+                <span class="card-subtext">↓ Predicts real market data</span>
+            </div>
+
+            <div class="card">
+                <span class="card-title">Learning Rate</span>
+                <h2 class="card-value" id="val-lr">--</h2>
+                <span class="card-subtext">Cosine Annealing Schedule</span>
+            </div>
+
+            <div class="card">
+                <span class="card-title">Hardware Telemetry</span>
+                <div class="gpu-stats">
+                    <span class="card-subtext" style="font-family: 'JetBrains Mono'">GPU UTIL</span>
+                    <span style="font-weight: 700; color: #facc15;" id="val-gpu">--%</span>
+                </div>
+                <div class="gpu-stats">
+                    <span class="card-subtext" style="font-family: 'JetBrains Mono'">VRAM</span>
+                    <span style="font-weight: 700; color: #38bdf8;"><span id="val-vram">--</span> GB</span>
+                </div>
+                <div class="gpu-stats">
+                    <span class="card-subtext" style="font-family: 'JetBrains Mono'">TEMP</span>
+                    <span style="font-weight: 700; color: #f87171;" id="val-temp">--°C</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-wide">
+            <div style="display: flex; justify-content: space-between;">
+                <span class="card-title">Distillation Loss Curvature</span>
+            </div>
+            <div class="chart-container">
+                <canvas id="lossChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化 Chart.js
+        const ctx = document.getElementById('lossChart').getContext('2d');
+        
+        Chart.defaults.color = '#a1a1aa';
+        Chart.defaults.font.family = 'Outfit';
+
+        const lossChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], 
+                datasets: [
+                    {
+                        label: 'KL-Divergence Loss',
+                        data: [],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 3,
+                        pointRadius: 0,
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Cross-Entropy Loss',
+                        data: [],
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'transparent',
+                        borderWidth: 3,
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { color: '#f4f4f5', usePointStyle: true, boxWidth: 8 }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(24, 24, 27, 0.9)',
+                        titleFont: { family: 'JetBrains Mono' },
+                        bodyFont: { family: 'JetBrains Mono' }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(63, 63, 70, 0.3)' },
+                        ticks: { maxTicksLimit: 10 }
+                    },
+                    y: {
+                        grid: { color: 'rgba(63, 63, 70, 0.3)' },
+                        beginAtZero: true,
+                        suggestedMax: 4.0
+                    }
+                },
+                animation: {
+                    duration: 0
+                }
+            }
+        });
+
+        // 定时拉取数据
+        async function fetchTelemetry() {
+            try {
+                const response = await fetch('/api/telemetry');
+                const data = await response.json();
+
+                // 更新文字 DOM
+                document.getElementById('val-step').innerText = data.step;
+                document.getElementById('val-percent').innerText = data.percentage + "%";
+                document.getElementById('progress-bar').style.width = data.percentage + "%";
+                
+                document.getElementById('val-kl').innerText = data.kl_loss.toFixed(3);
+                document.getElementById('val-ce').innerText = data.ce_loss.toFixed(3);
+                document.getElementById('val-lr').innerText = data.lr;
+                
+                document.getElementById('val-gpu').innerText = data.gpu_util + "%";
+                document.getElementById('val-vram').innerText = data.vram;
+                document.getElementById('val-temp').innerText = data.temperature + "°C";
+
+                // 图表最多保留 100 个点，形成滑动效果
+                const maxPoints = 100;
+                if (lossChart.data.labels.length > maxPoints) {
+                    lossChart.data.labels.shift();
+                    lossChart.data.datasets[0].data.shift();
+                    lossChart.data.datasets[1].data.shift();
+                }
+
+                // 只有当步数发生显著变化时，才往图表注入点
+                lossChart.data.labels.push(data.step);
+                lossChart.data.datasets[0].data.push(data.kl_loss);
+                lossChart.data.datasets[1].data.push(data.ce_loss);
+                lossChart.update();
+
+            } catch (error) {
+                console.error("Telemetry API Error: ", error);
+            }
+        }
+
+        // 第一个点立即加载，随后每 1 公秒拉取一次
+        fetchTelemetry();
+        setInterval(fetchTelemetry, 1000);
+
+    </script>
+</body>
+</html>

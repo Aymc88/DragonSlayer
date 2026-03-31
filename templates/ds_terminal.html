@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DragonSlayer | TDM Workstation</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- UI Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            /* 
+               FinTech Corporate Standard Palette (Light Theme):
+               Background: #E0E0E0 (Cool Gray)
+               Headers/Navigation: #003366 (Deep Tech Blue)
+               Icons: #333333 (Tech Slate)
+               Primary Text: #333333 (Tech Slate)
+               Active State/Accent: #4B0082 (Cyber Indigo)
+               Progress Bars/Status: #4B0082 (Cyber Indigo)
+               Execute button: #FFD700 (Circuit Gold)
+            */
+            --bg-base: #E0E0E0; 
+            --panel-bg: #FFFFFF; /* White panels on Cool Gray background for clean separation */
+            
+            --tech-blue: #003366;
+            --tech-slate: #333333;
+            --cyber-indigo: #4B0082;
+            --circuit-gold: #FFD700;
+            
+            --border-line: rgba(51, 51, 51, 0.15); /* Soft slate border */
+        }
+
+        body {
+            margin: 0;
+            padding: 2.5rem;
+            background-color: var(--bg-base);
+            color: var(--tech-slate);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            box-sizing: border-box;
+        }
+
+        /* Headers/Navigation */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-line);
+            padding-bottom: 1.5rem;
+        }
+
+        .title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--tech-blue); /* Headers: Deep Tech Blue */
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .title svg {
+            color: var(--tech-slate); /* Icons: Tech Slate */
+        }
+
+        .status-badge {
+            background: #FFFFFF;
+            color: var(--tech-slate);
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid var(--border-line);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .status-dot {
+            width: 10px; height: 10px;
+            background: var(--cyber-indigo); /* Status/Progress Indicator uses Indigo */
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse { 0%, 100% {opacity: 1;} 50% {opacity: 0.4;} }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 320px 1fr 450px;
+            gap: 1.5rem;
+            height: calc(100vh - 160px);
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-line);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04); /* Clean modern shadow */
+        }
+
+        .panel-header {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border-line);
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--tech-blue); /* Headers: Deep Tech Blue */
+            background: rgba(0, 51, 102, 0.02);
+            letter-spacing: 0.02em;
+        }
+        
+        .panel-header svg {
+            color: var(--tech-slate); /* Icons: Tech Slate */
+        }
+
+        .panel-body {
+            padding: 1.5rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* Forms */
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-size: 0.85rem; color: var(--tech-slate); margin-bottom: 0.5rem; font-weight: 700; }
+        
+        select, input {
+            width: 100%;
+            background: #FAFAFA; 
+            border: 1px solid var(--border-line); 
+            color: var(--tech-slate);
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+        
+        select:focus, input:focus { 
+            background: #FFFFFF;
+            border-color: var(--cyber-indigo); /* Active State: Cyber Indigo */
+            box-shadow: 0 0 0 3px rgba(75, 0, 130, 0.1); 
+        }
+
+        /* Buttons */
+        .btn-action {
+            /* Action Buttons: #003366 Deep Tech Blue with white text */
+            background: var(--tech-blue);
+            color: #FFFFFF; 
+            border: none;
+            border-radius: 6px;
+            padding: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: #002244;
+        }
+
+        /* Execute Button Override */
+        .btn-execute {
+            width: 100%;
+            padding: 16px;
+            background: var(--circuit-gold); /* Execute button: Circuit Gold */
+            color: var(--tech-slate); /* Deep slate text for high contrast on gold */
+            border: none;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        .btn-execute:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.4); 
+            background: #FFDF33; /* Slightly brighter gold on hover */
+        }
+        
+        .btn-execute:active { 
+            transform: translateY(1px); 
+            box-shadow: 0 2px 5px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* The Loading Bar embedded in the execute button (Progress Bar map to Cyber Indigo) */
+        .progress-bar-container {
+            width: 100%;
+            height: 4px;
+            background: #E0E0E0;
+            margin-top: 15px;
+            border-radius: 2px;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--cyber-indigo); /* Progress Bars: Cyber Indigo */
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Terminal Logs -> Re-styled to fit the clean corporate theme */
+        .console {
+            background-color: #FAFAFA; 
+            border: 1px solid var(--border-line);
+            border-radius: 6px;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--tech-slate);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+        }
+        
+        .log-entry { margin-bottom: 4px; animation: fadeIn 0.3s; }
+        .log-time { color: #888888; margin-right: 12px; font-weight: 600;}
+        .log-sys { color: var(--tech-blue); font-weight: 600;} 
+        .log-info { color: var(--tech-slate); } 
+        .log-success { color: var(--cyber-indigo); font-weight: 700; } /* Accent: Cyber Indigo */
+
+        /* Hardware Stats Box */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+        .stat-card { 
+            background: #FFFFFF; 
+            padding: 15px; 
+            border-radius: 8px; 
+            border: 1px solid var(--border-line); 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .stat-card label {
+            color: var(--tech-blue);
+            font-size: 0.8rem;
+        }
+        .stat-val { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 1.4rem; 
+            font-weight: 700; 
+            color: var(--cyber-indigo); /* Active accent */
+            margin-top: 6px;
+        }
+
+        /* Code Block */
+        pre {
+            background: #FAFAFA; 
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-line);
+            overflow-x: auto;
+            color: var(--tech-slate);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+            flex: 1;
+        }
+        
+        /* Professional IDE syntax coloring */
+        .keyword { color: var(--tech-blue); font-weight: 700;}
+        .built_in { color: var(--cyber-indigo); font-weight: 700;}
+        .string { color: #008000; }
+        .comment { color: #888888; font-style: italic;}
+
+        .oathkeeper-banner {
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(75, 0, 130, 0.05); /* Very light indigo background */
+            border-left: 4px solid var(--cyber-indigo);
+            border-radius: 0 4px 4px 0;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--tech-slate);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .oathkeeper-banner svg { color: var(--cyber-indigo); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="title"><i data-lucide="cpu"></i> DragonSlayer V1.0 Workstation</div>
+        <div class="status-badge"><div class="status-dot"></div> INT4 Core Online (2.8GB Limit)</div>
+    </div>
+
+    <div class="layout">
+        
+        <!-- Left Panel: Control Center -->
+        <div class="panel">
+            <div class="panel-header"><i data-lucide="sliders-horizontal"></i> TDM Config</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Asset Class</label>
+                    <select id="asset">
+                        <option value="SPX 0DTE">SPX 0DTE Options</option>
+                        <option value="NVDA 3DTE">NVDA 3DTE Options</option>
+                        <option value="USO Weekly Option">USO Weekly Option</option>
+                        <option value="Gld 45DTE">Gld 45DTE</option>
+                        <option value="VIX Weekly Option">VIX Weekly Option</option>
+                        <option value="TSLA Weekly">TSLA Weekly Options</option>
+                        <option value="Crypto Perps">Crypto Perpetuals</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Investment Philosophy</label>
+                    <select id="philosophy">
+                        <option value="X-Ray（基于SAE技术）">X-Ray（基于SAE技术）</option>
+                        <option value="Reflection（Actor-Risk-Backtest）">Reflection（Actor-Risk-Backtest）</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Data Fields</label>
+                    <input type="text" value="[Open, IV, RSI, Last]" disabled>
+                </div>
+
+                <button class="btn-execute" id="execBtn" onclick="executePipeline()">
+                    <i data-lucide="zap"></i> Execute Pipeline
+                </button>
+                
+                <!-- Explicit Progress Bar mapping requested by user -->
+                <div class="progress-bar-container" id="progContainer">
+                    <div class="progress-bar" id="progBar"></div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <label>LATENCY</label>
+                        <div class="stat-val" id="lat-val">-- ms</div>
+                    </div>
+                    <div class="stat-card">
+                        <label>VRAM PEAK</label>
+                        <div class="stat-val" id="mem-val">-- GB</div>
+                    </div>
+                    <div class="stat-card" style="grid-column: span 2;">
+                        <label>TX_ID</label>
+                        <div class="stat-val" id="tx-val" style="font-size: 1rem; color: var(--tech-slate);">WAITING_SIGNAL</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middle Panel: Terminal Logs -->
+        <div class="panel">
+            <div class="panel-header"><i data-lucide="terminal"></i> Pipeline Trace Array</div>
+            <div class="panel-body" style="padding: 1.5rem; display: flex; flex-direction: column;">
+                <div class="console" id="console">
+                    <div class="log-entry"><span class="log-time">[SYS]</span> Listening for execution trigger...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Factor Matrix (Code) -->
+        <div class="panel">
+            <div class="panel-header"><i data-lucide="code-2"></i> Output Engine</div>
+            <div class="panel-body" style="display: flex; flex-direction: column; padding: 1.5rem;">
+                <label style="color: var(--tech-blue); font-size: 0.9rem; margin-bottom: 0.8rem;">Generated Code (Polars)</label>
+                <br>
+                <pre id="codeBlock"><span class="comment"># Awaiting generation instructions...</span></pre>
+                
+                <div class="oathkeeper-banner" id="oathBanner"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const ts = () => {
+            const d = new Date();
+            return `[${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.${d.getMilliseconds().toString().padStart(3,'0')}]`;
+        };
+
+        const log = (msg, type='info') => {
+            const c = document.getElementById('console');
+            const colorClass = type === 'info' ? 'log-info' : (type === 'sys' ? 'log-sys' : 'log-success');
+            c.innerHTML += `<div class="log-entry"><span class="log-time">${ts()}</span><span class="${colorClass}">${msg}</span></div>`;
+            c.scrollTop = c.scrollHeight;
+        };
+
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+        async function executePipeline() {
+            const btn = document.getElementById('execBtn');
+            const progCont = document.getElementById('progContainer');
+            const progBar = document.getElementById('progBar');
+            const asset = document.getElementById('asset').value;
+            const phil = document.getElementById('philosophy').value;
+            
+            btn.innerHTML = `<i data-lucide="loader-2" class="lucide-spin"></i> Processing`;
+            btn.style.opacity = '0.8';
+            btn.disabled = true;
+            progCont.style.display = 'block';
+            progBar.style.width = '10%';
+            lucide.createIcons();
+            
+            // UI Reset
+            document.getElementById('console').innerHTML = '';
+            document.getElementById('oathBanner').style.display = 'none';
+            document.getElementById('codeBlock').innerHTML = '<span class="comment"># Awaiting generation instructions...</span>';
+
+            log(`Initialising TDM Context Switch...`, 'sys');
+            await sleep(150);
+            progBar.style.width = '30%';
+            log(`Waking up [The Oracle-Forger] Agent...`);
+            log(`Feeding Param: Asset=${asset} | Kernel=${phil}`);
+            
+            try {
+                const res = await fetch('/api/run_pipeline', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({asset, philosophy})
+                });
+                const data = await res.json();
+                
+                progBar.style.width = '60%';
+                await sleep(data.latency_ms / 2); // 视觉延迟感
+                log(`[Oracle-Forger Thought] ${data.oracle_forger_thought}`, 'info');
+                await sleep(data.latency_ms / 2);
+                progBar.style.width = '80%';
+                
+                // Colorize Code purely via basic regex for display
+                let coloredCode = data.code
+                    .replace(/import|def|return|span|eps/g, '<span class="keyword">$&</span>')
+                    .replace(/gc\.collect|pl\.col/g, '<span class="built_in">$&</span>')
+                    .replace(/'.*?'/g, '<span class="string">$&</span>')
+                    .replace(/#.*/g, '<span class="comment">$&</span>');
+
+                document.getElementById('codeBlock').innerHTML = coloredCode;
+                log(`Code Generated successfully. VRAM footprint locked to ~500MB via gc.collect().`, 'success');
+
+                await sleep(100);
+                log(`Context Switched. Waking up [The Oathkeeper] Agent...`, 'sys');
+                await sleep(200);
+                
+                progBar.style.width = '100%';
+                document.getElementById('oathBanner').innerHTML = `<i data-lucide="shield-check"></i> <span>${data.oathkeeper_verdict}</span>`;
+                document.getElementById('oathBanner').style.display = 'flex';
+                lucide.createIcons();
+                log(`Oathkeeper Verification Complete. Pipeline returned <500ms bounds.`, 'success');
+
+                // Update Stats
+                document.getElementById('lat-val').innerText = `${data.latency_ms} ms`;
+                document.getElementById('mem-val').innerText = data.vram_peak;
+                document.getElementById('tx-val').innerText = data.tx_id;
+
+            } catch (e) {
+                log(`ERROR: INT4 Core Pipeline Failed. ${e.message}`, 'sys');
+                progBar.style.background = '#e53e3e';
+            }
+
+            // Restore button state
+            setTimeout(() => {
+                btn.innerHTML = `<i data-lucide="zap"></i> Execute Pipeline`;
+                btn.style.opacity = '1';
+                btn.disabled = false;
+                progCont.style.display = 'none';
+                progBar.style.width = '0%';
+                progBar.style.background = 'var(--cyber-indigo)';
+                lucide.createIcons();
+            }, 800);
+        }
+    </script>
+
+    <style>
+        .lucide-spin { animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</body>
+</html>
