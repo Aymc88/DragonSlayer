@@ -89,9 +89,9 @@ graph TD
 | :--- | :--- | :--- |
 | **Amanda Chen** | 负责人 | 整体架构、蒸馏算法主创 |
 | **Wei Zhang** | 核心开发 | TensorRT-LLM 算子调优 |
-| **叽叽喳喳** | 数据专家 | Nemotron-4 340B 合成语料 |
-| **DaDa** | 前端开发 | Streamlit 交易仪表盘 |
-| **千千万万** | 文档合规 | 项目评审、合规、视频制作 |
+| **Zhe Zhe Jin** | 数据专家 | Nemotron-4 340B 合成语料 |
+| **DaDa Wang** | 前端开发 | Streamlit 交易仪表盘 |
+| **Qian Wan** | 文档合规 | 项目评审、合规、视频制作 |
 
 ---
 
