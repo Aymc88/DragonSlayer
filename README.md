@@ -14,94 +14,116 @@
   <img src="https://img.shields.io/badge/Architecture-Blackwell-blue?style=for-the-badge" alt="Architecture">
 </p>
 
-## 🏁 评委快速指南 (Guide for Judges)
+# 🐉 DragonSlayer 2.8GB
+> **下一代 AI 量化模型 | Next-Gen High-Frequency Trading AI**
 
-该仓库是 **DragonSlayer 2.8GB** 项目的**技术框架展示版**。主要模型权重与训练工件由于体积过大已通过 `.gitignore` 屏蔽，重点展示以下核心模块：
-
-1.  **项目全阶段核心管线**: [dragon_slayer.py](dragon_slayer.py) (展示剪枝、量化与蒸馏的逻辑流)
-2.  **多智能体策略框架**: [multi_agent_pipeline.py](multi_agent_pipeline.py) 
-3.  **实时看板可视化**: [dragonslayer_web.py](dragonslayer_web.py) 
-
-
----
-
-## 📖 项目概述 (Overview)
-
-DragonSlayer 2.8GB 是一款专为 **0DTE（零日期权）** 交易设计的超轻量级金融大模型。通过 NVIDIA 环境下的两步蒸馏技术，我们成功地将数万亿参数的知识压缩至仅 2.8GB 的模型中，使其在极低延迟（< 25ms）下仍能保持极高的交易精度。
-
-### 🚨 核心痛点解决
-*   **毫秒级波动**：交易窗口仅以毫秒计，传统 7B+ 模型 5 秒以上的延迟是无法逾越的鸿沟。
-*   **计算边界**：在 DGX Spark (Blackwell) 本地部署，消除网络延迟，确保交易信号的绝对私密。
+![Version](https://img.shields.io/badge/Model-2.8GB-blue?style=for-the-badge)
+![Latency](https://img.shields.io/badge/Latency-%3C25ms-green?style=for-the-badge)
+![Compression](https://img.shields.io/badge/Compression-1600x-orange?style=for-the-badge)
+![Fidelity](https://img.shields.io/badge/Fidelity-92%25-purple?style=for-the-badge)
+![Hardware](https://img.shields.io/badge/Hardware-NVIDIA%20DGX%20Spark-red?style=for-the-badge)
 
 ---
 
-## ✨ 核心亮点 
+## 📖 1. 项目概述 (Project Overview)
 
-| 🚀 性能革命 | 🧠 智慧深度 | 🛡️ 安全合规 |
+### 🎯 核心目标
+构建**全球首个**专为 **0DTE（零日期权）** 高频交易场景设计的 **2.8GB 超轻量级金融大模型**。
+旨在打破传统大模型“高延迟、高算力依赖”的瓶颈，实现在边缘设备（NVIDIA DGX Spark）上的**本地化、实时化、智能化**交易决策，将 AI 推理延迟压缩至 **25ms** 级别，真正赋能毫秒级金融战场。
+
+### ⚠️ 背景与痛点
+在 0DTE 交易中，市场波动以毫秒计，当前 AI 技术面临三大核心痛点：
+*   **🐢 速度鸿沟**：传统大模型推理耗时 **>5s**，远超 0DTE 容忍阈值 (<100ms)，导致策略失效。
+*   **💸 资源诅咒**：高性能模型显存占用巨大（数十 GB），依赖云端，存在网络延迟与隐私风险。
+*   **🌑 黑盒信任**：深度学习不可解释，交易员不敢托付真金白银。
+
+### 💡 解决方案
+DragonSlayer 通过 **两阶段知识蒸馏**、**极致量化技术** 和 **多智能体协作框架**：
+*   将等效 **4.5TB** 知识量的教师模型压缩至 **2.8GB**。
+*   保持 **92%** 决策保真度。
+*   实现 **200倍** 速度提升。
+*   提供透明可审计的风控机制。
+
+---
+
+## ✨ 2. 作品亮点 (Highlights)
+
+| 亮点 | 描述 | 关键数据 |
 | :--- | :--- | :--- |
-| **200x 速度提升**<br>从 >5s 优化至 **25ms** | **92% 保真度**<br>对标 4.5TB 教师模型 | **本地化部署**<br>DGX Spark 本地闭环 |
-| **1600x 压缩比**<br>4.5TB → **2.8GB** | **INT4 量化平滑**<br>解决 4-bit 计算舍入误差 | **X-Ray 实时审计 Reflection 实时反馈**<br>解决 AI “黑盒”不可信问题 |
+| **🚀 极致压缩** | 独创“两步蒸馏法”，让巨型模型在边缘端运行 | **1600x** (4.5TB → 2.8GB) |
+| **⚡ 性能飞跃** | 核心推理延迟大幅降低，契合高频需求 | **200x** (>5s → <25ms) |
+| **🧠 高度保真** | 学生模型与教师模型决策一致性极高 | **92%** Fidelity |
+| **🛡️ 本地安全** | 基于 DGX Spark 本地闭环，数据不出域 | **0** Network Latency |
+
+### 🛠️ 主要功能
+*   **0DTE 实时策略生成**：针对 `NVDA`, `SPX`, `VIX` 等标的，实时生成基于 `Polars` 的高性能向量化交易因子代码。
+*   **多智能体风控审计**：内置 `Oracle-Forger` (策略), `Oathkeeper` (风控), `X-Ray` (监控) 三大 Agent。
+*   **可视化工作站**：Streamlit 交互式界面，支持资产配置、延迟监控及代码预览。
+*   **动态显存管理**：强制锁定 VRAM 在 **2.8GB** 以内，防止 OOM 崩溃。
 
 ---
 
-## ✨ 作品功能
+## 💡 3. 技术创新 (Technical Innovations)
 
-*    **0DTE（零日期权）**：专门为零日期权交易服务的金融模型。
-*    **揭秘黑盒**：解决性能、智能、安全的问题
+### 🧠 算法：两阶段知识蒸馏
+1.  **Synthesis**: 利用 **Nemotron-4 340B** 的 SteerLM 技术进行合成数据生成 (SDG)，构建高质量金融语料，产出中间态模型。
+2.  **Distillation & Pruning**: 使用 **NVIDIA NeMo** 进行结构化剪枝与深度蒸馏，最终产出 2.8GB 学生模型。
 
----
+### ⚙️ 架构：NVFP4 与 GQA 融合引擎
+*   **NVFP4/FP8 量化**: 深度适配 **NVIDIA Blackwell** 架构，最大化吞吐率。
+*   **GQA (Grouped-Query Attention)**: 优化注意力机制，大幅降低 KV Cache 显存占用。
 
-## 🏗️ 技术创新 
-
-### 📈 二阶段蒸馏架构
-我们不只是压缩，更是精华的提取。
-
-```mermaid
-graph TD
-    A[Teacher: Nemotron-4 340B] -->|Step 1: SteerLM SDG| B[Intermediate Model: 12GB]
-    B -->|Step 2: Structured Pruning| C[Student Model: 2.8GB]
-    C -->|Optimization| D[TensorRT-LLM / NVFP4]
-    D -->|Deployment| E[Real-time 0DTE Trading]
-```
-
-### 💎 加速技术
-1.  **NVFP4/FP8 Precision**: 适配 **NVIDIA Blackwell** 架构，利用 4 位浮点格式实现算力吞吐。
-2.  **GQA 融合引擎**: 优化 Grouped-Query Attention，将 KV Cache 显存占用降至极限。
-3.  **Oracle-Forger Agent**: 自动生成基于 **Polars** 的极致向量化因子代码。
+### 🛡️ 系统：透明化多智能体管线
+*   **X-Ray 可视化**: 将模型内部状态映射为可读指标。
+*   **Reflection 机制**: `Actor`, `Risk`, `Backtest` 三 Agent 实时博弈与审计。
 
 ---
 
-## 🛠️ NVIDIA工具平台SDK开源模型
+## 🧰 4. NVIDIA 全栈技术 (NVIDIA Stack)
 
-*   **NVIDIA NeMo**: 核心蒸馏、剪枝与全量微调框架。
-*   **TensorRT-LLM**: 针对量化权重的深度内核优化。
-*   **NVIDIA NIM**: 工业级加速部署与稳定性保障。
-*   **NVIDIA Blackwell (DGX Spark)**: 支撑所有计算需求的物理内核。
+本项目深度整合 NVIDIA 全栈技术，充分发挥硬件算力：
 
----
-
-## 🧑‍💻 团队成员 (Team)
-
-> [!TIP]
-> 感谢团队每位成员的极致付出，将不可能变成了 2.8GB 的奇迹。
-
-| 成员 | 职责 | 核心贡献 |
-| :--- | :--- | :--- |
-| **Amanda Chen** | 负责人 | 整体架构、蒸馏算法主创 |
-| **Wei Zhang** | 核心开发 | TensorRT-LLM 算子调优 |
-| **Zhe Zhe Jin** | 数据专家 | Nemotron-4 340B 合成语料 |
-| **DaDa Wang** | 前端开发 | Streamlit 交易仪表盘 |
-| **Qian Wan** | 文档合规 | 项目评审、合规、视频制作 |
+| 技术组件 | 应用场景与贡献 |
+| :--- | :--- |
+| **NVIDIA NeMo** | 核心训练框架 (剪枝、蒸馏、微调) |
+| **TensorRT-LLM** | 推理加速引擎 (NVFP4 量化、算子优化) |
+| **NVIDIA NIM** | 微服务部署 (容器化、稳定性) |
+| **NVIDIA DGX Spark** | 硬件底座 (Blackwell 架构算力支撑) |
+| **Open Source** | Teacher: `Nemotron-4 340B` / Student Base: `Qwen2.5-3B` |
 
 ---
 
-## 🔮 未来展望 (Roadmap)
+## 👥 5. 团队贡献 (Team)
 
-- [ ] **视觉 K 线解析**: 引入 VLM 直接针对截图进行图形趋势识别。
-- [ ] **自动化回测飞轮**: 根据前一交易日胜率自动调整模型因子权重。
+我们是一支由算法工程师、全栈开发者和量化专家组成的跨学科团队：
+
+*   **Amanda Chen** - *Algorithm Architect*
+    *   整体架构设计，主导两阶段蒸馏算法研发与调优。
+*   **Hui Chen** - *Lead Engineer*
+    *   负责 TensorRT-LLM 算子优化与 NVFP4 量化落地，实现 25ms 延迟。
+*   **Wei Zhang** - *Data Scientist*
+    *   负责 Nemotron-4 合成语料生成与数据清洗，构建高质量数据集。
+*   **Ji Zha** - *Full-Stack Developer*
+    *   负责 Streamlit 前端工作站开发与后端 API 对接。
+*   **Qian Wan** - *Documentation & Compliance*
+    *   负责项目报告书、演示视频制作及合规性审查。
+
+---
+
+## 🔮 6. 未来展望 (Roadmap)
+
+*   **👁️ 多模态融合**: 引入 VLM，让 AI 直接“看懂”K 线图。
+*   **🔄 自动化回测飞轮**: 根据胜率自动调整因子权重，实现自我迭代。
+*   **📱 NemoClaw 移动生态**: 推出移动端应用，随时随地监控信号。
+*   **🌍 领域扩展**: 迁移至加密货币永续合约及外汇市场。
 
 ---
 
 <p align="center">
-  <b>DragonSlayer Project</b> — <i>Built on DGX Spark, Slaying the Market.</i>
-</p>
+  <strong>DragonSlayer 2.8GB</strong> | Slaying the Market, One Millisecond at a Time.<br>
+  Built with ❤️ on <b>NVIDIA DGX Spark</b>
+</p>** - *Full-Stack Developer*
+    *   负责 Streamlit 前端工作站开发与后端 API 对接。
+*   **Qian Wan** - *Documentation & Compliance*
+    *   负责项目报告书、演示视频制作及合规性审查。
+
