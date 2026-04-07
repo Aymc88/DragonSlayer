@@ -97,15 +97,15 @@ DragonSlayer 通过 **两阶段知识蒸馏**、**极致量化技术** 和 **多
 
 我们是一支由算法工程师、全栈开发者和量化专家组成的跨学科团队：
 
-*   **Amanda Chen** - *Algorithm Architect*
+*   **Connie Chen** - *Algorithm Architect*
     *   整体架构设计，主导两阶段蒸馏算法研发与调优。
-*   **Hui Chen** - *Lead Engineer*
+*   **陈一鸣** - *Lead Engineer*
     *   负责 TensorRT-LLM 算子优化与 NVFP4 量化落地，实现 25ms 延迟。
-*   **Wei Zhang** - *Data Scientist*
+*   **张 言** - *Data Scientist*
     *   负责 Nemotron-4 合成语料生成与数据清洗，构建高质量数据集。
-*   **Ji Zha** - *Full-Stack Developer*
+*   **李 辉** - *Full-Stack Developer*
     *   负责 Streamlit 前端工作站开发与后端 API 对接。
-*   **Qian Wan** - *Documentation & Compliance*
+*   **吴慧雯** - *Documentation & Compliance*
     *   负责项目报告书、演示视频制作及合规性审查。
 
 ---
