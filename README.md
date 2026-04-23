@@ -81,21 +81,9 @@ The project deeply integrates the NVIDIA full-stack technology to fully leverage
 
 Our interdisciplinary team consists of algorithm engineers, full-stack developers, and quantitative experts:
 
-* **Connie Chen (Project Lead / Lead Architect)**
+* **Amanda Chen (Project Lead / Lead Architect)**
   * *Responsibility*: Overall technical architecture design; led the R&D and tuning of the two-stage distillation algorithm.
   * *Contribution*: Established the 2.8GB technical roadmap and solved accuracy loss challenges during distillation.
-* **Yiming Chen (Core Developer)**
-  * *Responsibility*: Responsible for TensorRT-LLM operator optimization and NVFP4 quantization implementation.
-  * *Contribution*: Successfully optimized inference latency from seconds to 25ms, maximizing Blackwell performance.
-* **Yan Zhang (Data Engineer)**
-  * *Responsibility*: Managed synthetic corpus generation and data cleaning using Nemotron-4 340B.
-  * *Contribution*: Built a high-quality financial instruction dataset, laying the data foundation for high-fidelity model performance.
-* **Hui Li (Full-Stack Developer)**
-  * *Responsibility*: Streamlit workstation development and backend API integration.
-  * *Contribution*: Created a user-friendly interactive interface, enabling full-process visualization from config to code.
-* **Huiwen Wu (Technical Documentation & Compliance)**
-  * *Responsibility*: Project reporting, demo video production, and compliance auditing.
-  * *Contribution*: Ensured the professionalism and completeness of project documentation, enhancing project presentation.
 
 ---
 
