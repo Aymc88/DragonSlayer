@@ -54,7 +54,7 @@ def run_pipeline():
     asset = data.get("asset", "SPX")
     philosophy = data.get("philosophy", "Buffett Alpha")
     
-    # 模拟真实大模型的时分复用推理时延
+    # Simulate TDM inference latency of real large models
     start_time = time.time()
     time.sleep(random.uniform(0.2, 0.45)) 
     
@@ -66,16 +66,16 @@ import gc
 # Asset: {asset} | Philosophy: {philosophy}
 
 def compute_factor(df):
-    eps = 1e-4 # INT4 量化舍入安全平滑项
+    eps = 1e-4 # Safety smoothing for INT4 quantization rounding
     
-    # 极致向量化运算 (Polars Engine)
+    # High-performance vectorized operations (Polars Engine)
     factor = df.select([ 
         (pl.col('Last') / (pl.col('Open') + eps)).rank().ewm_mean(span=12) 
         + pl.col('IV').rolling_std(3)
         + pl.col('RSI')
     ])
     
-    # Context Switch: 释放孤儿张量
+    # Context Switch: Release orphan tensors
     gc.collect() 
     
     return factor"""

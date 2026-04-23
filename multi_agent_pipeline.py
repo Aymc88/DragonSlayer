@@ -6,10 +6,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # ---------------------------------------------------------
-# 🖥️ GPU 显存实时监控模块 (X-Ray VRAM Monitor)
-# ---------------------------------------------------------
-# ---------------------------------------------------------
-# 🖥️ GPU 显存实时监控引擎 (X-Ray Live v2.0)
+# 🖥️ GPU VRAM Real-time Monitoring Engine (X-Ray Live v2.0)
 # ---------------------------------------------------------
 import threading
 import sys
@@ -17,8 +14,8 @@ from contextlib import contextmanager
 
 class XRayLiveMonitor(threading.Thread):
     """
-    DragonSlayer 专属：全时显存实时感知线程
-    在后台静默运行，捕捉 0DTE 推理过程中的所有瞬时显存尖峰
+    DragonSlayer Exclusive: Full-time VRAM Real-time Awareness Thread
+    Runs silently in the background, capturing all instantaneous VRAM spikes during 0DTE inference
     """
     def __init__(self, interval=0.05):
         super().__init__(daemon=True)
@@ -34,26 +31,26 @@ class XRayLiveMonitor(threading.Thread):
             current = torch.cuda.memory_allocated() / 1024**3
             if current > self.peak_vram:
                 self.peak_vram = current
-            # 在最底行动态显示，不干扰主输出
+            # Dyamically displayed on the bottom line, without interfering with main output
             sys.stdout.write(f"\r  📡 [X-Ray Live] Current: {current:.2f}G | Peak: {self.peak_vram:.2f}G | Δ: {(current-self.base_vram):.2f}G    ")
             sys.stdout.flush()
             time.sleep(self.interval)
 
     def stop(self):
         self.stop_event.set()
-        print(f"\n  📊 [X-Ray Final Report] 捕捉到全时峰值: {self.peak_vram:.3f} GB")
+        print(f"\n  📊 [X-Ray Final Report] Captured full-time peak: {self.peak_vram:.3f} GB")
         if self.peak_vram <= 2.8:
-            print(f"  ✅ 硬件状态：DragonSlayer_INT4 推理合规 (Under 2.8GB)")
+            print(f"  ✅ Hardware Status: DragonSlayer_INT4 Inference Compliant (Under 2.8GB)")
         else:
-            print(f"  ⚠️ 硬件状态：检测到显存溢出风险！")
+            print(f"  ⚠️ Hardware Status: VRAM overflow risk detected!")
 
 @contextmanager
 def xray_vram_scope(label="Pipeline Segment"):
     """
-    高级用法：with xray_vram_scope('Inference'):
-    自动化开启/关闭监控并生成局部报告
+    Advanced Usage: with xray_vram_scope('Inference'):
+    Automatically start/stop monitoring and generate localized reports
     """
-    print(f"\n🚀 [Monitoring] 开始追踪: {label}")
+    print(f"\n🚀 [Monitoring] Start tracking: {label}")
     monitor = XRayLiveMonitor()
     monitor.start()
     try:
@@ -61,7 +58,7 @@ def xray_vram_scope(label="Pipeline Segment"):
     finally:
         monitor.stop()
 
-# 全局变量兼容性保留
+# Global variable compatibility retained
 _vram_peak = 0.0 
 def vram_checkpoint(label):
     curr = torch.cuda.memory_allocated() / 1024**3
@@ -70,93 +67,93 @@ def vram_checkpoint(label):
 
 
 # ---------------------------------------------------------
-# Phase 1: DragonSlayer_INT4 环境准备 & 资源控制
+# Phase 1: DragonSlayer_INT4 Environment Prep & Resource Control
 # ---------------------------------------------------------
 MODEL_PATH = "/home/xsuper/Binary-X/Models/Student_Core/DragonSlayer_INT4"
 VRAM_LIMIT_GB = 2.8
 
 def setup_vram_limit():
-    """强制锁定模型推理时的最大 GPU 显存占用"""
-    print(f"⚙️ [Hardware] 锁定 VRAM 阈值: {VRAM_LIMIT_GB} GB")
+    """Force lock the maximum GPU VRAM usage during model inference"""
+    print(f"⚙️ [Hardware] Locking VRAM threshold: {VRAM_LIMIT_GB} GB")
     pass
 
 def context_switch():
-    """TDM Pipeline 核心: 清空 KV Cache，释放不必要的中间层激活"""
+    """TDM Pipeline Core: Flush KV Cache, release unnecessary intermediate activations"""
     gc.collect()
     torch.cuda.empty_cache()
 
 # ---------------------------------------------------------
-# Phase 2: Agent 角色注入 & System Prompts (方案 1: 合并提升)
+# Phase 2: Agent Role Injection & System Prompts
 # ---------------------------------------------------------
 class MultiAgentOrchestrator:
     def __init__(self):
-        # 融合 Agent：The Oracle-Forger (预言者兼铸剑师) —— 因子与代码一体机
+        # Fusion Agent: The Oracle-Forger — Factor & Code All-in-One Engine
         self.oracle_forger_prompt = (
-            "你现在是 Oracle 兼 Forger。基于安全边际理念与高频波动率数据，"
-            "直接输出一个用于捕捉 0DTE 异常波动的 Python 函数(采用 Polars 极致向量化)。"
-            "要求：1. Max_Depth=4；2. 显频占用不超过 500MB(需显式包含 gc.collect())；3. 加入 INT4 eps 平滑项。"
+            "You are now both Oracle and Forger. Based on safety margin concepts and high-frequency volatility data, "
+            "directly output a Python function (using Polars for extreme vectorization) to capture 0DTE anomalous fluctuations. "
+            "Requirements: 1. Max_Depth=4; 2. VRAM usage <= 500MB (must include gc.collect()); 3. Include INT4 epsilon smoothing."
         )
-        # The Oathkeeper (守誓人) —— 风险圣盾
+        # The Oathkeeper — Risk Shield
         self.oathkeeper_prompt = (
-            "你现在是 Oathkeeper。审查代码检测逻辑漏洞。"
-            "如果推理特征熵值过高（幻觉），或存在分母为零风险，"
-            "立即强行中止策略执行。IC 准入阈值: > 0.02"
+            "You are now Oathkeeper. Audit code for logical vulnerabilities. "
+            "If inference entropy is too high (hallucination), or there is zero-division risk, "
+            "immediately force-stop strategy execution. IC threshold: > 0.02"
         )
 
     def invoke_model(self, agent_name, prompt_template, input_data):
-        """挂载对应 Prompt，向 DragonSlayer_INT4 进行时分推理"""
-        time.sleep(0.15) # 模拟推理单次唤醒物理延迟
+        """Mount the corresponding prompt and perform time-division inference on DragonSlayer_INT4"""
+        time.sleep(0.15) # Simulate single-inference physical wake-up latency
         
         if agent_name == "Oracle-Forger":
             return (
                 "import polars as pl\n"
                 "import gc\n"
                 "def compute_factor(df):\n"
-                "    eps = 1e-4 # 对抗 INT4 的量化舍入误差\n"
+                "    eps = 1e-4 # Mitigate INT4 quantization rounding errors\n"
                 "    factor = df.select([ (pl.col('Close')/(pl.col('Open_Interest')+eps)).rank().ewm_mean(span=12) + pl.col('High').rolling_std(3) ])\n"
-                "    gc.collect() # 内存回收\n"
+                "    gc.collect() # Memory reclamation\n"
                 "    return factor"
             )
         elif agent_name == "Oathkeeper":
             return "✅ [APPROVED] Entropy: 0.09 | Zero-Division Risk: Nullified via eps | Act: CLEAR"
 
 # ---------------------------------------------------------
-# Phase 3: 极致闭环测试 (0DTE <500ms 冲刺)
+# Phase 3: Extreme Closed-Loop Test (0DTE <500ms Sprint)
 # ---------------------------------------------------------
 def run_simulation_loop():
-    """极致闭环测试 (0DTE <500ms 冲刺)"""
+    """Extreme Closed-Loop Test (0DTE <500ms Sprint)"""
     setup_vram_limit()
     
-    # 注入 X-Ray Live 全时监控上下文
+    # Inject X-Ray Live full-time monitoring context
     with xray_vram_scope("DragonSlayer 0DTE V2") as monitor:
         orchestrator = MultiAgentOrchestrator()
         market_data = "SPX / 0DTE: [Open, High, Low, Close, V, OI]"
         
         print("\n" + "="*55)
-        print(" 🎲 DragonSlayer 极速模拟启动 (Oracle-Forger 协同负载)")
+        print(" 🎲 DragonSlayer High-Speed Simulation Started (Oracle-Forger Collaborative Load)")
         print("="*55)
         
         start_time = time.time()
         
-        # 1. 唤醒融合智能体
+        # 1. Wake up Fusion Agent
         of_out = orchestrator.invoke_model("Oracle-Forger", orchestrator.oracle_forger_prompt, market_data)
-        print(f"🔮⚒️ [Oracle-Forger] 已生成 Polars 算子:\n{of_out}")
+        print(f"🔮⚒️ [Oracle-Forger] Generated Polars Operator:\n{of_out}")
         context_switch() 
         
-        # 2. Oathkeeper 审查
+        # 2. Oathkeeper Audit
         oathkeeper_out = orchestrator.invoke_model("Oathkeeper", orchestrator.oathkeeper_prompt, of_out)
-        print(f"🛡️ [Oathkeeper] 审查决议: {oathkeeper_out}")
+        print(f"🛡️ [Oathkeeper] Audit Verdict: {oathkeeper_out}")
         context_switch() 
         
         end_time = time.time()
         latency_ms = (end_time - start_time) * 1000
         
         print("-" * 55)
-        print(f"⏱️  TDM 链路全闭环耗时: {latency_ms:.2f} ms")
+        print(f"⏱️  TDM Pipeline Total Closed-Loop Latency: {latency_ms:.2f} ms")
         if latency_ms < 500:
-            print("🎯 结果：【完美通过】达成超低时延标准！")
+            print("🎯 Result: [PASS] Ultra-low latency target achieved!")
         else:
-            print("⚠️  结果：【超时】未能达到 <500ms 交易阈值。")
+            print("⚠️  Result: [TIMEOUT] Failed to reach <500ms trading threshold.")
     
     print("="*55)
 
