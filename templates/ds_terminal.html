@@ -346,8 +346,8 @@
                 <div class="form-group">
                     <label>Investment Philosophy</label>
                     <select id="philosophy">
-                        <option value="X-Ray（基于SAE技术）">X-Ray（基于SAE技术）</option>
-                        <option value="Reflection（Actor-Risk-Backtest）">Reflection（Actor-Risk-Backtest）</option>
+                        <option value="X-Ray (Based on SAE Technology)">X-Ray (Based on SAE Technology)</option>
+                        <option value="Reflection (Actor-Risk-Backtest)">Reflection (Actor-Risk-Backtest)</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -456,7 +456,7 @@
                 const data = await res.json();
                 
                 progBar.style.width = '60%';
-                await sleep(data.latency_ms / 2); // 视觉延迟感
+                await sleep(data.latency_ms / 2); // Simulated visual delay
                 log(`[Oracle-Forger Thought] ${data.oracle_forger_thought}`, 'info');
                 await sleep(data.latency_ms / 2);
                 progBar.style.width = '80%';

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DRAGON SLAYER | Telemetry Dashboard</title>
-    <!-- 引入 Google Fonts -->
+    <!-- Import Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <!-- 引入 Chart.js -->
+    <!-- Import Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -250,7 +250,7 @@
     </div>
 
     <script>
-        // 初始化 Chart.js
+        // Initialize Chart.js
         const ctx = document.getElementById('lossChart').getContext('2d');
         
         Chart.defaults.color = '#a1a1aa';
@@ -316,7 +316,7 @@
             }
         });
 
-        // 定时拉取数据
+        // Periodically fetch telemetry data
         async function fetchTelemetry() {
             try {
                 const response = await fetch('/api/telemetry');
@@ -335,7 +335,7 @@
                 document.getElementById('val-vram').innerText = data.vram;
                 document.getElementById('val-temp').innerText = data.temperature + "°C";
 
-                // 图表最多保留 100 个点，形成滑动效果
+                // Cap chart at 100 points to create a sliding effect
                 const maxPoints = 100;
                 if (lossChart.data.labels.length > maxPoints) {
                     lossChart.data.labels.shift();
@@ -343,7 +343,7 @@
                     lossChart.data.datasets[1].data.shift();
                 }
 
-                // 只有当步数发生显著变化时，才往图表注入点
+                // Inject data points into the chart only when step significantly changes
                 lossChart.data.labels.push(data.step);
                 lossChart.data.datasets[0].data.push(data.kl_loss);
                 lossChart.data.datasets[1].data.push(data.ce_loss);
@@ -354,7 +354,7 @@
             }
         }
 
-        // 第一个点立即加载，随后每 1 公秒拉取一次
+        // Load the first data point immediately, then fetch every 1 second
         fetchTelemetry();
         setInterval(fetchTelemetry, 1000);
 
