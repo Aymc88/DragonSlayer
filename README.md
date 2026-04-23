@@ -1,129 +1,109 @@
-<p align="center">
-  <img src="assets/banner.png" alt="DragonSlayer Banner" width="100%">
-</p>
+# **DragonSlayer 2.8GB**
 
-<h1 align="center">🐉 DragonSlayer 2.8GB</h1>
+# **——Next-Generation AI Quantitative Model**
 
-<p align="center">
-  <strong>Next-Generation High-Frequency Trading AI • Distilled for Perfection</strong>
-</p>
+# **1. Project Overview**
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Model-DragonSlayer--INT4-00ffca?style=for-the-badge&logo=nvidia" alt="Model">
-  <img src="https://img.shields.io/badge/Latency-25ms-green?style=for-the-badge" alt="Latency">
-  <img src="https://img.shields.io/badge/Architecture-Blackwell-blue?style=for-the-badge" alt="Architecture">
-</p>
+### **1.1 Project Name**
 
-# 🐉 DragonSlayer 2.8GB
-> **下一代 AI 量化模型 | Next-Gen High-Frequency Trading AI**
+**DragonSlayer 2.8GB** 
 
-![Version](https://img.shields.io/badge/Model-2.8GB-blue?style=for-the-badge)
-![Latency](https://img.shields.io/badge/Latency-%3C25ms-green?style=for-the-badge)
-![Compression](https://img.shields.io/badge/Compression-1600x-orange?style=for-the-badge)
-![Fidelity](https://img.shields.io/badge/Fidelity-92%25-purple?style=for-the-badge)
-![Hardware](https://img.shields.io/badge/Hardware-NVIDIA%20DGX%20Spark-red?style=for-the-badge)
+### **1.2 Project Objectives**
 
----
+To build the world's first 2.8GB ultra-lightweight financial large model specifically designed for 0DTE (Zero Days to Expiration) high-frequency trading scenarios. The project aims to break the bottlenecks of "high latency and high compute dependency" inherent in traditional large models, achieving localized, real-time, and intelligent trading decisions on edge devices (NVIDIA DGX Spark). By compressing AI inference latency to the 25ms level, it truly empowers the millisecond-scale financial battlefield.
 
-## 📖 1. 项目概述 (Project Overview)
+### **1.3 Background & Pain Points**
 
-### 🎯 核心目标
-构建**全球首个**专为 **0DTE（零日期权）** 高频交易场景设计的 **2.8GB 超轻量级金融大模型**。
-旨在打破传统大模型“高延迟、高算力依赖”的瓶颈，实现在边缘设备（NVIDIA DGX Spark）上的**本地化、实时化、智能化**交易决策，将 AI 推理延迟压缩至 **25ms** 级别，真正赋能毫秒级金融战场。
+In 0DTE trading, market fluctuations are measured in milliseconds, and opportunity windows are fleeting. However, current AI applications in quantitative trading face three core pain points:
 
-### ⚠️ 背景与痛点
-在 0DTE 交易中，市场波动以毫秒计，当前 AI 技术面临三大核心痛点：
-*   **🐢 速度鸿沟**：传统大模型推理耗时 **>5s**，远超 0DTE 容忍阈值 (<300ms)，导致策略失效。
-*   **💸 资源诅咒**：高性能模型显存占用巨大（数十 TB），依赖云端，存在网络延迟与隐私风险。
-*   **🌑 黑盒信任**：深度学习不可解释，交易员不敢托付真金白银。
+1. **The Speed Chasm**: Traditional large model execution typically takes seconds (>5s), far exceeding the 0DTE trading tolerance threshold (<300ms), leading to strategy failure.
+2. **The Resource Curse**: High-performance models have massive VRAM footprints (dozens of TBs), requiring reliance on cloud clusters, which introduces network latency and data privacy concerns.
+3. **The Black Box of Trust**: The lack of interpretability in deep learning models makes traders hesitant to entrust significant capital to AI.
 
-### 💡 解决方案
-DragonSlayer 通过 **两阶段知识蒸馏**、**极致量化技术** 和 **多智能体协作框架**：
-*   将等效 **4.5TB** 知识量的教师模型压缩至 **2.8GB**。
-*   保持 **92%** 决策保真度。
-*   实现 **200倍** 速度提升。
-*   提供透明可审计的风控机制。
+### **1.4 Solution**
+
+DragonSlayer utilizes a two-stage knowledge distillation process, extreme quantization techniques, and a multi-agent collaboration framework to successfully compress a 4.5TB teacher model into a 2.8GB student model. While maintaining 92% decision fidelity, it achieves a 200x increase in execution code speed (total execution time compressed by 16.83x compared to traditional models) and provides a transparent, auditable risk control mechanism.
 
 ---
 
-## ✨ 2. 作品亮点 (Highlights)
+## **2. Highlights & Features**
 
-| 亮点 | 描述 | 关键数据 |
-| :--- | :--- | :--- |
-| **🚀 极致压缩** | 独创“两步蒸馏法”，让巨型模型在边缘端运行 | **1600x** (4.5TB → 2.8GB) |
-| **⚡ 性能飞跃** | 核心推理延迟大幅降低，契合高频需求 | **200x** (>5s → <25ms) |
-| **🧠 高度保真** | 学生模型与教师模型决策一致性极高 | **92%** Fidelity |
-| **🛡️ 本地安全** | 基于 DGX Spark 本地闭环，数据不出域 | **0** Network Latency |
+### **2.1 Core Highlights**
 
-### 🛠️ 主要功能
-*   **0DTE 实时策略生成**：针对 `NVDA`, `SPX`, `VIX` 等标的，实时生成基于 `Polars` 的高性能向量化交易因子代码。
-*   **多智能体风控审计**：内置 `Oracle-Forger` (策略), `Oathkeeper` (风控), `X-Ray` (监控) 三大 Agent。
-*   **可视化工作站**：Streamlit 交互式界面，支持资产配置、延迟监控及代码预览。
-*   **动态显存管理**：强制锁定 VRAM 在 **2.8GB** 以内，防止 OOM 崩溃。
+* **Extreme Compression**: A proprietary "two-step distillation" method achieving a 1600x compression ratio (4.5TB → 12GB → 2.8GB), allowing giant models to run on edge devices.
+* **Performance Leap**: Core inference latency reduced from >5s to <25ms (a 200x improvement), perfectly meeting the demands of high-frequency trading.
+* **High Fidelity**: The student model maintains 92% decision consistency with the teacher model on key trading signals, ensuring compression without loss of intelligence.
+* **Local Security**: Localized closed-loop deployment on NVIDIA DGX Spark ensures data stays on-site, eliminating network latency and leakage risks.
 
----
+### **2.2 Main Features**
 
-## 💡 3. 技术创新 (Technical Innovations)
-
-### 🧠 算法：两阶段知识蒸馏
-1.  **Synthesis**: 利用 **Nemotron-4 340B** 的 SteerLM 技术进行合成数据生成 (SDG)，构建高质量金融语料，产出中间态模型。
-2.  **Distillation & Pruning**: 使用 **NVIDIA NeMo** 进行结构化剪枝与深度蒸馏，最终产出 2.8GB 学生模型。
-
-### ⚙️ 架构：NVFP4 与 GQA 融合引擎
-*   **NVFP4/FP8 量化**: 深度适配 **NVIDIA Blackwell** 架构，最大化吞吐率。
-*   **GQA (Grouped-Query Attention)**: 优化注意力机制，大幅降低 KV Cache 显存占用。
-
-### 🛡️ 系统：透明化多智能体管线
-*   **X-Ray 可视化**: 将模型内部状态映射为可读指标。
-*   **Reflection 机制**: `Actor`, `Risk`, `Backtest` 三 Agent 实时博弈与审计。
+* **0DTE Real-time Strategy Generation**: Generates high-performance vectorized trading factor code based on Polars for assets like SPX, VIX, and NVDA in real-time.
+* **Multi-Agent Risk Audit**: Built-in Reflection Agent mechanism comprising Oracle-Forger (Strategy Gen), Oathkeeper (Risk Audit), and X-Ray (VRAM Monitoring) to ensure the safety and compliance of every trade.
+* **Visualization Workstation**: An interactive Streamlit interface supporting asset allocation, strategy selection, latency monitoring, and instant code preview.
+* **Dynamic VRAM Management**: Real-time monitoring of VRAM usage, strictly locked within 2.8GB to prevent OOM (Out-of-Memory) crashes.
 
 ---
 
-## 🧰 4. NVIDIA 全栈技术 (NVIDIA Stack)
+## **3. Technical Innovations**
 
-本项目深度整合 NVIDIA 全栈技术，充分发挥硬件算力：
+### **3.1 Algorithmic Innovation: Two-Stage Knowledge Distillation**
 
-| 技术组件 | 应用场景与贡献 |
-| :--- | :--- |
-| **NVIDIA NeMo** | 核心训练框架 (剪枝、蒸馏、微调) |
-| **TensorRT-LLM** | 推理加速引擎 (NVFP4 量化、算子优化) |
-| **NVIDIA NIM** | 微服务部署 (容器化、稳定性) |
-| **NVIDIA DGX Spark** | 硬件底座 (Blackwell 架构算力支撑) |
-| **Open Source** | Teacher: `Nemotron-4 340B` / Student Base: `Qwen2.5-3B` |
+* **Stage 1 (Synthesis)**: Utilizes NVIDIA Nemotron-4 340B’s SteerLM technology for Synthetic Data Generation (SDD) to build high-quality financial corpora, training a 12GB intermediate teacher model.
+* **Stage 2 (Distillation & Pruning)**: Uses the NVIDIA NeMo framework locally for structural pruning and deep distillation, resulting in the 2.8GB student model that retains core financial logic.
 
----
+### **3.2 Architectural Innovation: NVFP4 & GQA Fusion Engine**
 
-## 👥 5. 团队贡献 (Team)
+* **NVFP4/NVFP8 Quantization**: Deeply optimized for the NVIDIA Blackwell architecture, leveraging the next-generation 4-bit floating-point format to maximize throughput while maintaining precision.
+* **GQA (Grouped-Query Attention)**: Optimizes the attention mechanism to significantly reduce KV Cache VRAM footprint, making long-context processing possible under low memory constraints.
 
-我们是一支由算法工程师、全栈开发者和量化专家组成的跨学科团队：
+### **3.3 System Innovation: Transparent Multi-Agent Pipeline**
 
-*   **Connie Chen** - *Algorithm Architect*
-    *   整体架构设计，主导两阶段蒸馏算法研发与调优。
-*   **陈一鸣** - *Lead Engineer*
-    *   负责 TensorRT-LLM 算子优化与 NVFP4 量化落地，实现 25ms 延迟。
-*   **张 言** - *Data Scientist*
-    *   负责 Nemotron-4 合成语料生成与数据清洗，构建高质量数据集。
-*   **李 辉** - *Full-Stack Developer*
-    *   负责 Streamlit 前端工作站开发与后端 API 对接。
-*   **吴慧雯** - *Documentation & Compliance*
-    *   负责项目报告书、演示视频制作及合规性审查。
+* **X-Ray Visual Coding**: Maps internal model states to readable metrics, solving the "black box" trust issue.
+* **Reflection Mechanism**: Introduces Actor (Execution), Risk (Governance), and Backtest (Verification) agents for real-time game-theoretic auditing, ensuring trade instructions are self-validated within milliseconds.
 
 ---
 
-## 🔮 6. 未来展望 (Roadmap)
+## **4. NVIDIA Stack & Open Source Integration**
 
-*   **👁️ 多模态融合**: 引入 VLM，让 AI 直接“看懂”K 线图。
-*   **🔄 自动化回测飞轮**: 根据胜率自动调整因子权重，实现自我迭代。
-*   **📱 NemoClaw 移动生态**: 推出移动端应用，随时随地监控信号。
-*   **🌍 领域扩展**: 迁移至加密货币永续合约及外汇市场。
+The project deeply integrates the NVIDIA full-stack technology to fully leverage hardware performance:
+
+| Component | Application & Contribution |
+| :---- | :---- |
+| **NVIDIA NeMo** | Core training framework. Used for structural pruning, knowledge distillation, and Full Fine-tuning. |
+| **TensorRT-LLM** | Inference acceleration engine. Implements NVFP4/NVFP8 quantization and kernels optimization for ultra-low latency. |
+| **NVIDIA NIM** | Microservice deployment. Packages the model as standardized containers for stability and scalability. |
+| **NVIDIA DGX Spark** | Hardware foundation. Based on Blackwell architecture, providing powerful local compute for the 2.8GB model. |
+| **Open Source Models** | **Teacher**: Nemotron-4 340B (High-level financial intelligence) <br> **Student Base**: Qwen2.5-3B (Lightweight architectural foundation) |
 
 ---
 
-<p align="center">
-  <strong>DragonSlayer 2.8GB</strong> | Slaying the Market, One Millisecond at a Time.<br>
-  Built with ❤️ on <b>NVIDIA DGX Spark</b>
-</p>** - *Full-Stack Developer*
-    *   负责 Streamlit 前端工作站开发与后端 API 对接。
-*   **Qian Wan** - *Documentation & Compliance*
-    *   负责项目报告书、演示视频制作及合规性审查。
+## **5. Team Contributions**
 
+Our interdisciplinary team consists of algorithm engineers, full-stack developers, and quantitative experts:
+
+* **Connie Chen (Project Lead / Lead Architect)**
+  * *Responsibility*: Overall technical architecture design; led the R&D and tuning of the two-stage distillation algorithm.
+  * *Contribution*: Established the 2.8GB technical roadmap and solved accuracy loss challenges during distillation.
+* **Yiming Chen (Core Developer)**
+  * *Responsibility*: Responsible for TensorRT-LLM operator optimization and NVFP4 quantization implementation.
+  * *Contribution*: Successfully optimized inference latency from seconds to 25ms, maximizing Blackwell performance.
+* **Yan Zhang (Data Engineer)**
+  * *Responsibility*: Managed synthetic corpus generation and data cleaning using Nemotron-4 340B.
+  * *Contribution*: Built a high-quality financial instruction dataset, laying the data foundation for high-fidelity model performance.
+* **Hui Li (Full-Stack Developer)**
+  * *Responsibility*: Streamlit workstation development and backend API integration.
+  * *Contribution*: Created a user-friendly interactive interface, enabling full-process visualization from config to code.
+* **Huiwen Wu (Technical Documentation & Compliance)**
+  * *Responsibility*: Project reporting, demo video production, and compliance auditing.
+  * *Contribution*: Ensured the professionalism and completeness of project documentation, enhancing project presentation.
+
+---
+
+## **6. Future Roadmap**
+
+DragonSlayer is not just a trading model, but a continuously evolving financial AI platform:
+
+* **Multi-Modal Fusion**: Introducing Vision-Language Models (VLM) to enable the AI to "read" K-line charts and technical patterns directly, enriching decision dimensions.
+* **Auto-Backtest Flywheel**: Building a closed-loop system that automatically adjusts model factor weights based on daily win rates for self-iterating strategies.
+* **NemoClaw Mobile Ecosystem**: Plans to launch the "NemoClaw" mobile app, allowing users to monitor DragonSlayer status and receive key signals anywhere, anytime.
+* **Domain Expansion**: Migrating the current architecture to cryptocurrency perpetual contracts and Forex markets to verify the generalizability and scalability of the technology.
