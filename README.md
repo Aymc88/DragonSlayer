@@ -81,11 +81,25 @@ The project deeply integrates the NVIDIA full-stack technology to fully leverage
 
 Our interdisciplinary team consists of algorithm engineers, full-stack developers, and quantitative experts:
 
-* **Amanda Chen (Project Lead / Lead Architect)**
-  * *Responsibility*: Overall technical architecture design; led the R&D and tuning of the two-stage distillation algorithm.
-  * *Contribution*: Established the 2.8GB technical roadmap and solved accuracy loss challenges during distillation.
+## 5. Team Contributions
 
----
+This project is an official entry for the **NVIDIA DGX Spark Hackathon**, completed collaboratively by a highly complementary, interdisciplinary team. Roles and core contributions are outlined below:
+
+* 👑 **Amanda Chen | Project Lead / Algorithm Architect**
+  * **Role**: Overall technical roadmap and architecture design; R&D and hyperparameter tuning of the two-stage knowledge distillation algorithm.
+  * **Contribution**: Established the underlying 2.8GB compression strategy; independently proposed and implemented the **boundary-alignment ("edge-blurring") method for segmented distillation**, resolving the accuracy-loss and representation mismatch problems of segment reassembly under extreme constraints.
+* ⚡ **Connie Chen | Core Development Engineer**
+  * **Role**: TensorRT-LLM kernel optimization, low-bit quantization implementation, and hardware-level acceleration.
+  * **Contribution**: Successfully implemented NVFP4/NVFP8 quantization and custom kernel tuning within TensorRT-LLM, driving end-to-end inference latency down to the **~25ms** level and maximizing Blackwell architecture throughput.
+* 📊 **Yan Zhang | Data Engineering**
+  * **Role**: High-quality financial corpora construction, data engineering, and instructional dataset curation.
+  * **Contribution**: Architected the Synthetic Data Generation (SDG) pipeline using Nemotron-4 340B's SteerLM, creating the foundational financial instruction dataset that preserved high decision fidelity in the distilled student model.
+* 💻 **Hui Li | Full-Stack Development Engineer**
+  * **Role**: Front-end workstation UX/UI development, back-end service architecture, and API integration.
+  * **Contribution**: Delivered a high-performance, Streamlit-based interactive workstation featuring live asset allocation, instant Polars-based vectorized strategy code generation, latency monitoring, and real-time VRAM telemetry.
+* ✍️ **Huiwen Wu | Technical Documentation & Compliance**
+  * **Role**: Technical report writing, demo video production, open-source governance, and financial risk-control audit compliance.
+  * **Contribution**: Maintained the absolute completeness, accuracy, and professional presentation of all project deliverables, ensuring the multi-agent pipeline satisfies high-frequency quantitative compliance frameworks.
 
 ## **6. Future Roadmap**
 
