@@ -1,6 +1,7 @@
 # DragonSlayer 2.8GB
 ## ——Next-Generation AI Quantitative Model
-
+> 🏆 **3rd Place** — 2026 NVIDIA DGX Spark Hackathon
+> *Team project; see §5 for contributions.*
 ---
 
 ## 1. Project Overview
