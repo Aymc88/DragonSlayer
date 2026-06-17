@@ -77,10 +77,6 @@ The project deeply integrates the NVIDIA full-stack technology to fully leverage
 
 ---
 
-## **5. Team Contributions**
-
-Our interdisciplinary team consists of algorithm engineers, full-stack developers, and quantitative experts:
-
 ## 5. Team Contributions
 
 This project is an official entry for the **NVIDIA DGX Spark Hackathon**, completed collaboratively by a highly complementary, interdisciplinary team. Roles and core contributions are outlined below:
