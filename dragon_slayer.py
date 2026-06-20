@@ -1,3 +1,15 @@
+> [!NOTE]
+> ### ⚔️ DragonSlayer Pipeline Demonstration Script
+>
+> This script is a **conceptual demonstration** of the DragonSlayer pipeline. It illustrates the overall hardware-optimized optimization flow and stage ordering:
+>
+> $$\text{Pruning} \longrightarrow \text{Quantization} \longrightarrow \text{Distillation}$$
+>
+> * **Implementation Notice:** This script only demonstrates the execution flow via printed output and **does not** contain the full end-to-end training implementation.
+> * **Infrastructure & Artifacts:** The actual high-performance distillation was executed on an **NVIDIA DGX Spark server** during the **2026 DGX Spark Hackathon**. The compiled production-ready models (**2.8GB / 12GB / 60GB**) are hosted and maintained in separate repositories.
+> * **Intended Use:** For architectural flow demonstration and pipeline validation only.
+
+
 import torch
 import os
 import time
