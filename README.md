@@ -111,3 +111,9 @@ This project is an official entry for the **NVIDIA DGX Spark Hackathon**, comple
 ---
 
 *This project is a collaborative Hackathon entry. Member contributions are as described in §5.*
+> [!NOTE]
+> ### 📝 Infrastructure & Implementation Notice 
+>
+> * **🌐 Infrastructure:** The core training pipeline was developed and deployed on an **NVIDIA DGX Spark server** during the **2026 Hackathon**.
+> * **💻 Script Purpose:** The scripts provided in this repository (`dragon_slayer.py`, `multi_agent_pipeline.py`) serve as **conceptual demonstrations** of the execution flow. They do not contain the full distributed training implementation.
+> * **📦 Model Artifacts:** The final optimized models are maintained and hosted separately.
